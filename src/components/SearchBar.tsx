@@ -15,6 +15,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
+  <input ref={inputRef} value={term} onChange={(e) => setTerm(e.target.value)} />
 
   // React.FormEvent, not `any`. The compiler knows what preventDefault is.
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
