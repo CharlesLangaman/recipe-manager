@@ -11,7 +11,7 @@ interface MealCardProps {
 // only a mealId. That is why the prop is `Recipe` and not `SavedRecipe`.
 export default function MealCard({ meal, onSave, isSaved, isSaving }: MealCardProps) {
   const { title, category, thumb, ingredients } = meal;
-
+  const label = isSaved ? "Saved" : isSaving ? "Saving..." : "Save";
   return (
     <div className="card bg-base-100 shadow">
       <figure className="h-40 overflow-hidden">
@@ -26,13 +26,13 @@ export default function MealCard({ meal, onSave, isSaved, isSaving }: MealCardPr
           </span>
         </div>
 
-const label = isSaved ? "Saved" : isSaving ? "Saving..." : "Save";
-<button
- className={`btn btn-sm ${isSaved ? "btn-disabled" : "btn-primary"}`}
- onClick={() => onSave(meal)}
- disabled={isSaved || isSaving}>
- {label}
-</button>
+        
+        <button
+          className={`btn btn-sm ${isSaved ? "btn-disabled" : "btn-primary"}`}
+          onClick={() => onSave(meal)}
+          disabled={isSaved || isSaving}>
+          {label}
+        </button>
 
             
         <div className="card-actions justify-end mt-2">

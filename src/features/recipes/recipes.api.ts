@@ -1,33 +1,25 @@
-import { api } from "@/lib/api";
 import type { SavedRecipe, NewRecipe, RecipePatch } from "./recipes.types";
-
-// ---------------------------------------------------------------------------
-// Your saved recipes, on json-server. The half we are allowed to write to.
-//
-// Four functions, four HTTP verbs. Note what they are NOT: they are not React.
-// They know nothing about hooks or components. Arguments in, promises out.
-// ---------------------------------------------------------------------------
-
-// WORKED EXAMPLE — read.
-export const getRecipes = async (): Promise<SavedRecipe[]> =>
-  (await api.get<SavedRecipe[]>("/recipes")).data;
-
-// WORKED EXAMPLE — delete.
-// Study these two and TODO 4 and TODO 5 are the same shape with a different verb.
-export const deleteRecipe = async (id: number): Promise<{ id: number }> => {
-  await api.delete(`/recipes/${id}`);
-  return { id };
+const KEY = "saved-recipes";
+const read = (): SavedRecipe[] => {
+ try {
+ return JSON.parse(localStorage.getItem(KEY) ?? "[]") as SavedRecipe[];
+ } catch {
+ return [];
+ }
 };
-
-// TODO 4 — Create.
-//
-//   POST /recipes  + the recipe object as the body
-//
-// json-server replies 201 with the saved object, and it has assigned an `id`.
-// Return the server's copy, not the one you sent — note the types say so:
-// you pass a NewRecipe (no id) and get back a SavedRecipe (id).
-export const createRecipe = async (recipe: NewRecipe): Promise<SavedRecipe> =>
- (await api.post<SavedRecipe>("/recipes", recipe)).data;
-
-export const updateRecipe = async ({ id, ...patch }: RecipePatch): Promise<SavedRecipe> =>
- (await api.patch<SavedRecipe>(`/recipes/${id}`, patch)).data;
+const write = (rows: SavedRecipe[]) => localStorage.setItem(KEY, JSON.stringify(rows));
+export const getRecipes = async (): Promise<SavedRecipe[]> => read();
+export const createRecipe = async (recipe: NewRecipe): Promise<SavedRecipe> => {
+ const row: SavedRecipe = { ...recipe, id: crypto.randomUUID() };
+ write([...read(), row]);
+ return row;
+};
+export const updateRecipe = async ({ id, ...patch }: RecipePatch): Promise<SavedRecipe> => {
+ const rows = read().map((r) => (r.id === id ? { ...r, ...patch } : r));
+ write(rows);
+ return rows.find((r) => r.id === id)!;
+};
+export const deleteRecipe = async (id: string): Promise<{ id: string }> => {
+ write(read().filter((r) => r.id !== id));
+ return { id };
+};
