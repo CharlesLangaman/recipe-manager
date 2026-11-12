@@ -1,6 +1,6 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { useMeal } from "@/features/meals/meals.hooks";
-import { useSavedRecipes } from "@/features/recipes/recipes.hooks";
+import { useMeal } from "../features/meals/meals.hooks";
+import { useSavedRecipes } from "../features/recipes/recipes.hooks";
 export default function RecipeDetailPage() {
     // The id comes from the URL, which makes this page deep-linkable:
     // /recipe/52772 opened cold must render. That is what vercel.json is for.
@@ -10,7 +10,7 @@ export default function RecipeDetailPage() {
     const meal = useMeal(mealId);
     if (meal.isPending) {
         return (
-            <div className="text-center py-20">
+            <div className="text-center py-20"> 
                 <span className="loading loading-spinner loading-lg" />
             </div>
         );

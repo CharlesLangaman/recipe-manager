@@ -8,7 +8,7 @@ export default defineConfig({
     alias: {
       // Vite and TypeScript need telling SEPARATELY. This makes the bundler
       // find the file; tsconfig's `paths` makes the compiler understand it.
-      "@/": path.resolve(import.meta.dirname, "./src"),
+      "@": path.resolve(import.meta.dirname, "./src"),
     },
   },
 });
