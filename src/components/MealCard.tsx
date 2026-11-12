@@ -30,8 +30,7 @@ const label = isSaved ? "Saved" : isSaving ? "Saving..." : "Save";
 <button
  className={`btn btn-sm ${isSaved ? "btn-disabled" : "btn-primary"}`}
  onClick={() => onSave(meal)}
- disabled={isSaved || isSaving}
->
+ disabled={isSaved || isSaving}>
  {label}
 </button>
 

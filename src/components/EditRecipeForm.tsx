@@ -48,8 +48,7 @@ const [time, setTime] = useState(String(recipe.time ?? 0));
 const [notes, setNotes] = useState(recipe.notes ?? "");
 const original = useRef({ time: recipe.time ?? 0, notes: recipe.notes ?? ""
 });
-const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
- e.preventDefault();
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => { e.preventDefault();
  const nextTime = Number(time) || 0;
  const nextNotes = notes.trim();
  if (nextTime === original.current.time && nextNotes === original.current.notes) {
